@@ -6,10 +6,17 @@
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="/icon-192.png">
     <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
         body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             text-align: center;
             font-family: Arial, sans-serif;
-            margin-top: 200px;
         }
         #note {
             font-size: 600px;
@@ -19,14 +26,15 @@
             margin-top: 20px;
             font-size: 40px;
         }
-        input {
+        #controls input {
             width: 60px;
             font-size: 70px;
             text-align: center;
-            }
-            #controls button {
-        font-size: 80px;       
-        padding: 20px 40px; 
+        }
+        #controls button {
+            font-size: 80px;
+            padding: 20px 40px;
+            margin: 0 10px;
         }
     </style>
 </head>
@@ -48,12 +56,11 @@
             "G", "G#", "A♭", "A", "A#", "B♭", "B"
         ];
 
-        // 발음 매칭 (D는 "디이", B는 "삐이"로 수정, 띄어쓰기 없음)
         const notePronunciations = {
             "C": "씨",
             "C#": "씨샵",
             "D♭": "디플랫",
-            "D": "디이",  // 수정: "디이"로 발음
+            "D": "디이",
             "D#": "디샵",
             "E♭": "이플랫",
             "E": "이",
@@ -66,7 +73,7 @@
             "A": "에이",
             "A#": "에이샵",
             "B♭": "삐플랫",
-            "B": "삐이"  // 수정: "삐이"로 발음
+            "B": "삐이"
         };
 
         let timer;
@@ -79,7 +86,7 @@
             document.getElementById('note').innerText = note;
 
             const utterance = new SpeechSynthesisUtterance(pronunciation);
-            utterance.lang = "ko-KR"; // 한국어 발음
+            utterance.lang = "ko-KR";
             speechSynthesis.speak(utterance);
         }
 
