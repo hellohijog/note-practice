@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>랜덤 음 연습</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+            margin-top: 100px;
+        }
+        #note {
+            font-size: 80px;
+            margin: 20px;
+        }
+        #controls {
+            margin-top: 20px;
+        }
+        input {
+            width: 60px;
+            font-size: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>랜덤 음 연습</h1>
+    <div id="note">-</div>
+
+    <div id="controls">
+        간격(초):
+        <input type="number" id="intervalInput" value="2" min="1">
+        <br><br>
+        <button onclick="start()">시작</button>
+        <button onclick="stop()">정지</button>
+    </div>
+
+    <script>
+        const notes = [
+            "C", "C#", "D♭", "D", "D#", "E♭", "E", "F", "F#", "G♭",
+            "G", "G#", "A♭", "A", "A#", "B♭", "B"
+        ];
+
+        // 발음 매칭 (D는 "디이", B는 "삐이"로 수정, 띄어쓰기 없음)
+        const notePronunciations = {
+            "C": "씨",
+            "C#": "씨샵",
+            "D♭": "디플랫",
+            "D": "디이",  // 수정: "디이"로 발음
+            "D#": "디샵",
+            "E♭": "이플랫",
+            "E": "이",
+            "F": "에프",
+            "F#": "에프샵",
+            "G♭": "쥐플랫",
+            "G": "쥐",
+            "G#": "쥐샵",
+            "A♭": "에이플랫",
+            "A": "에이",
+            "A#": "에이샵",
+            "B♭": "삐플랫",
+            "B": "삐이"  // 수정: "삐이"로 발음
+        };
+
+        let timer;
+
+        function getRandomNote() {
+            const randomIndex = Math.floor(Math.random() * notes.length);
+            const note = notes[randomIndex];
+            const pronunciation = notePronunciations[note] || note;
+
+            document.getElementById('note').innerText = note;
+
+            const utterance = new SpeechSynthesisUtterance(pronunciation);
+            utterance.lang = "ko-KR"; // 한국어 발음
+            speechSynthesis.speak(utterance);
+        }
+
+        function start() {
+            const interval = Number(document.getElementById('intervalInput').value) * 1000;
+            if (timer) clearInterval(timer);
+            getRandomNote();
+            timer = setInterval(getRandomNote, interval);
+        }
+
+        function stop() {
+            clearInterval(timer);
+        }
+    </script>
+</body>
+</html>
